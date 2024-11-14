@@ -1,13 +1,14 @@
 import { Badge, Box, Breadcrumbs, CircularProgress, Container, Divider, Paper } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchData } from "../../Utils/Function";
+import { DataContext, fetchData } from "../../Utils/Function";
 import ProductsRelatedComponent from "./ProductsRelatedComponent";
 import CommentRatingComponent from "../Comment/CommentRatingComponent";
 import ProductDetailContentComponent from "./ProductDetailContentComponent";
 
 
 export default function ProductDetailPageComponent() {
+    const { update } = useContext(DataContext)
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
     const { id } = useParams();
@@ -21,7 +22,7 @@ export default function ProductDetailPageComponent() {
                 })
         }
         fetch();
-    }, [id])
+    }, [id, update])
 
     return (
         <>
