@@ -1,6 +1,6 @@
 import { Button, Container, Rating, Stack, TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
-import { DataContext, postData } from "../../Utils/Function";
+import { useState } from "react";
+import { postData } from "../../Utils/Function";
 import PropTypes from "prop-types"
 
 ReviewFormComponent.propTypes = {
@@ -9,7 +9,6 @@ ReviewFormComponent.propTypes = {
 }
 
 export default function ReviewFormComponent({ productId, handleSumitComment }) {
-    const { update, setUpdate } = useContext(DataContext)
     const [inputForm, setInputForm] = useState({
         name: "",
         rating: 5,
@@ -41,7 +40,6 @@ export default function ReviewFormComponent({ productId, handleSumitComment }) {
             }
         })
         handleSumitComment();
-        setUpdate(!update);
     }
 
     return (

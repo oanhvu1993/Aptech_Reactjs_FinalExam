@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 import { fetchData } from "../../Utils/Function";
 
 ProductsByCategoryComponent.propTypes = {
-    heading: PropTypes.string,
     categoryFilter: PropTypes.string,
     showHeading: PropTypes.bool,
     productsData: PropTypes.array
 }
 
-export default function ProductsByCategoryComponent({ productsData, heading = null, categoryFilter, showHeading = false }) {
+export default function ProductsByCategoryComponent({ productsData, categoryFilter, showHeading = false }) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {

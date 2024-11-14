@@ -1,21 +1,22 @@
-import { Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, Rating, Stack, Typography } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import ReviewFormComponent from "./ReviewFormComponent";
 import { DataContext, fetchData } from "../../Utils/Function";
 import PropTypes from "prop-types"
+import CommentRatingListComponent from "./CommentRatingListComponent";
 
 CommentRatingComponent.propTypes = {
     productId: PropTypes.string,
     handleUpdateComment: PropTypes.func
 }
 
-export default function CommentRatingComponent({ productId, handleUpdateComment }) {
+export default function CommentRatingComponent({ productId }) {
     const [reviews, setReviews] = useState([])
-    const { update } = useContext(DataContext)
+    const { update, setUpdate } = useContext(DataContext)
     const [openReview, setOpenReview] = useState(false)
     const handleSumitComment1 = () => {
         setOpenReview(!openReview);
-        handleUpdateComment();
+        setUpdate(!update);
     }
     useEffect(() => {
         const fetch = async () => {
@@ -26,6 +27,7 @@ export default function CommentRatingComponent({ productId, handleUpdateComment 
         }
         fetch();
     }, [productId, update])
+
     const toggleReviewForm = () => {
         setOpenReview(!openReview)
     }
@@ -35,33 +37,15 @@ export default function CommentRatingComponent({ productId, handleUpdateComment 
             <Container direction={"column"} component={Stack}>
                 <Button onClick={toggleReviewForm} sx={{ alignSelf: "end" }}>Viết đánh giá</Button>
                 {
+                    // Open review form
                     openReview ? <ReviewFormComponent handleSumitComment={handleSumitComment1} productId={productId} /> :
+                        // Open review section
                         <Container>
-                            {reviews.length <= 0 ? <Typography>Chưa có đánh giá nào</Typography> :
-                                < Box >
-                                    <List sx={{ overflow: "auto", width: "100%", maxHeight: "300px" }} >
-                                        {reviews.map((item, key) => (
-                                            <ListItem key={key} alignItems="flex-start">
-                                                <ListItemAvatar>
-                                                    <Avatar src="..." />
-                                                </ListItemAvatar>
-                                                <Stack>
-                                                    <Typography variant="h6">
-                                                        {item.reviewer == null || item.reviewer == "" ? "Anonymous" : item.reviewer}
-                                                    </Typography>
-                                                    <Rating
-                                                        size="small"
-                                                        readOnly
-                                                        value={item.rating}
-                                                    />
-                                                    <Typography>
-                                                        {item.comment}
-                                                    </Typography>
-                                                </Stack>
-                                            </ListItem>
-                                        ))}
-                                    </List>
-                                </Box>
+                            {reviews.length <= 0 ?
+                                // if there is no review yet
+                                <Typography>Chưa có đánh giá nào</Typography> :
+                                // if there are some reviews
+                                <CommentRatingListComponent reviews={reviews} />
                             }
                         </Container>
                 }

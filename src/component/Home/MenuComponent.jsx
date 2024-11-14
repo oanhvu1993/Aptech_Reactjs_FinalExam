@@ -103,7 +103,10 @@ export default function MenuComponent({ toggleCartDrawer }, props) {
                             <SearchMenuComponent anchorSearch={searchAnchor} handleCloseSearch={handleSearchClose} />
                             <IconButton
                                 sx={{ color: "white" }}
-                                onClick={() => navigate("/Favorites")}
+                                onClick={() => {
+                                    navigate("/Favorites");
+                                    window.scrollTo(0, 0)
+                                }}
                             >
                                 <Badge badgeContent={favoriteItems.length} color="secondary">
                                     <Favorite />
